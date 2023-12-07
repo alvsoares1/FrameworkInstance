@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { ClassroomService } from "../services/ClassroomService";
+import { ClassroomServiceFaculdade } from "../Service/ClassroomService";
 import {ClassrooomController} from '../../Core/src/modules/classrooms/controllers/ClassroomController'
 
 class ClassrooomControllerFaculdade extends ClassrooomController{
@@ -8,8 +8,8 @@ class ClassrooomControllerFaculdade extends ClassrooomController{
     const { name, description } = request.body;
     const { id } = request.user;
 
-    const classroomService = container.resolve(ClassroomService);
-    
+    const classroomService = container.resolve(ClassroomServiceFaculdade);
+ClassroomServiceFaculdade
     const classroom = await classroomService.create({
       name, 
       description,
@@ -23,7 +23,7 @@ class ClassrooomControllerFaculdade extends ClassrooomController{
     const { classroom_id } = request.body;
     const { id } = request.user;
 
-    const classroomService = container.resolve(ClassroomService);
+    const classroomService = container.resolve(ClassroomServiceFaculdade);
 
     const classroom = await classroomService.join({
       classroom_id,
@@ -36,7 +36,7 @@ class ClassrooomControllerFaculdade extends ClassrooomController{
   async details(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    const classroomService = container.resolve(ClassroomService);
+    const classroomService = container.resolve(ClassroomServiceFaculdade);
 
     const classroom = await classroomService.details(id);
 

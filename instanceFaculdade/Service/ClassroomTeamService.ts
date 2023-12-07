@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
-import { IClassroomTeamsRepository } from '../repositories/IClassroomTeamsRepository';
-import { IUsersRepository } from '../../accounts/repositories/IUsersRepository';
-import { IRequestJoinClassroomTeam } from '../interfaces/IRequestJoinClassroomTeam';
-import { AppError } from '../../../shared/errors/AppError';
-import { IClassroomTeamServiceStrategy } from '../interfaces/IClassRoomTeamServicesStrategy';
-import { ClassroomTeam } from '../entities/ClassroomTeam';
-import { ICreateClassroomTeamDTO } from '../dtos/ICreateClassroomTeamDTO';
+import { IClassroomTeamsRepository } from '../../Core/src/modules/classrooms/repositories/IClassroomTeamsRepository';
+import { IUsersRepository } from '../../Core/src/modules/accounts/repositories/IUsersRepository';
+import { IRequestJoinClassroomTeam } from '../../Core/src/modules/classrooms/interfaces/IRequestJoinClassroomTeam';
+import { AppError } from '../../Core/src/shared/errors/AppError';
+import { IClassroomTeamServiceStrategy } from '../Interface/IClassRoomTeamServicesStrategy';
+import { ClassroomTeam } from '../../Core/src/modules/classrooms/entities/ClassroomTeam';
+import { ICreateClassroomTeamFaculdadeDTO } from '../dtos/ICreateClassroomTeamFaculdadeDTO';
 import {ClassroomTeamService} from '../../Core/src/modules/classrooms/services/ClassroomTeamService'
 
 @injectable()
@@ -17,9 +17,11 @@ class ClassroomTeamServiceFaculdade extends ClassroomTeamService {
     private usersRepository: IUsersRepository,
     @inject('ClassroomTeamValidateFaculdade')
     private ClassroomTeamServiceStrategy: IClassroomTeamServiceStrategy
-  ) {}
+  ) {
+    super();
+  }
 
-  async create({ classroom_id, name, creator_id }: ICreateClassroomTeamDTO): Promise<ClassroomTeam> {
+  async create({ classroom_id, name, creator_id }: ICreateClassroomTeamFaculdadeDTO): Promise<ClassroomTeam> {
 
     const isValid = await this.ClassroomTeamServiceStrategy.validate_create({classroom_id,name,creator_id });
 

@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-import { ensureProfessor } from "../middlewares/ensureProfessor";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { ClassrooomController } from "../modules/classrooms/controllers/ClassroomController";
 import { ClassroomTeamController } from "../modules/classrooms/controllers/ClassroomTeamController";
@@ -13,7 +12,6 @@ const classroomTeamController = new ClassroomTeamController();
 classroomsRoutes.post(
   "/", 
   ensureAuthenticated, 
-  ensureProfessor, 
   classroomController.create
 );
 

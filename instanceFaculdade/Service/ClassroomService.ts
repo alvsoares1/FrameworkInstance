@@ -1,12 +1,12 @@
 import { inject, injectable } from "tsyringe";
 
-import { ICreateClassroomDTO } from "../dtos/ICreateClassroomDTO";
-import { IClassroomsRepository } from "../repositories/IClassroomsRepository";
-import { Classroom } from "../entities/Classroom";
-import { IRequestJoinClassroom } from "../interfaces/IRequestJoinClassroom";
-import { AppError } from "../../../shared/errors/AppError";
-import { IUsersRepository } from "../../accounts/repositories/IUsersRepository";
-import { IClassroomServicesStrategy } from "../interfaces/IClassroomServicesStrategy";
+import {ICreateClassroomFaculdadeDTO} from '../dtos/ICreateClassroomFaculdadeDTO'
+import { IClassroomsRepository } from "../../Core/src/modules/classrooms/repositories/IClassroomsRepository";
+import { Classroom } from "../../Core/src/modules/classrooms/entities/Classroom";
+import { IRequestJoinClassroom } from "../../Core/src/modules/classrooms/interfaces/IRequestJoinClassroom";
+import { AppError } from "../../Core/src/shared/errors/AppError";
+import { IUsersRepository } from "../../Core/src/modules/accounts/repositories/IUsersRepository";
+import { IClassroomServicesStrategy } from "../Interface/IClassroomServicesStrategy";
 import {ClassroomService} from '../../Core/src/modules/classrooms/services/ClassroomService'
 
 
@@ -19,9 +19,11 @@ class ClassroomServiceFaculdade extends ClassroomService{
     private usersRepository: IUsersRepository,
     @inject("ClassroomValidateFaculdade")
     private validateClassroomServicesStrategy: IClassroomServicesStrategy
-  ) {}
+  ) {
+    super();
+  }
   
-  async create({ name, description, professor_id }: ICreateClassroomDTO): Promise<Classroom> {
+  async create({ name, description, professor_id }: ICreateClassroomFaculdadeDTO): Promise<Classroom> {
     const isValidationPassed = await this.validateClassroomServicesStrategy.validateCreate({name,description,professor_id});
 
     if (isValidationPassed) {

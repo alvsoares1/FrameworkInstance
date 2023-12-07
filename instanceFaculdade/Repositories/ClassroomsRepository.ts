@@ -1,9 +1,9 @@
 import { Repository } from "typeorm";
 
-import { ICreateClassroomDTO } from "../../dtos/ICreateClassroomDTO";
-import { IClassroomsRepository } from "../IClassroomsRepository";
-import { Classroom } from "../../entities/Classroom";
-import { AppDataSource } from "../../../../database/data-source";
+import { ICreateClassroomFaculdadeDTO } from "../dtos/ICreateClassroomFaculdadeDTO";
+import { IClassroomsRepository } from "../../Core/src/modules/classrooms/repositories/IClassroomsRepository";
+import { Classroom } from "../../Core/src/modules/classrooms/entities/Classroom";
+import { AppDataSource } from "../../Core/src/database/data-source";
 import { ClassroomsRepository } from "../../Core/src/modules/classrooms/repositories/implementations/ClassroomsRepository";
 
 
@@ -12,10 +12,11 @@ class ClassroomsRepositoryFaculdade extends ClassroomsRepository implements ICla
   private repository: Repository<Classroom>;
 
   constructor() {
+    super();
     this.repository = AppDataSource.getRepository(Classroom);
   }
 
-  async create({ id, name, description, professor_id }: ICreateClassroomDTO): Promise<Classroom> {
+  async create({ id, name, description, professor_id }: ICreateClassroomFaculdadeDTO): Promise<Classroom> {
     const classroom = this.repository.create({
       id,
       name, 

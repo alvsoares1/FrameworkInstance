@@ -1,12 +1,12 @@
     import {inject, injectable } from 'tsyringe';
-    import { ICreateClassroomTeamDTO } from '../dtos/ICreateClassroomTeamDTO';
-    import { ClassroomTeam } from '../entities/ClassroomTeam';
-    import { IClassroomTeamsRepository } from '../repositories/IClassroomTeamsRepository';
-    import { IRequestJoinClassroomTeam } from '../interfaces/IRequestJoinClassroomTeam';
-    import { IUsersRepository } from '../../accounts/repositories/IUsersRepository';
-    import { AppError } from '../../../shared/errors/AppError';
-    import {IClassroomTeamServiceStrategy} from '../interfaces/IClassRoomTeamServicesStrategy'
-    import { IClassroomsRepository } from "../repositories/IClassroomsRepository";
+    import { ICreateClassroomTeamFaculdadeDTO } from '../dtos/ICreateClassroomTeamFaculdadeDTO';
+    import { ClassroomTeam } from '../../Core/src/modules/classrooms/entities/ClassroomTeam';
+    import { IClassroomTeamsRepository } from '../../Core/src/modules/classrooms/repositories/IClassroomTeamsRepository';
+    import { IRequestJoinClassroomTeam } from '../../Core/src/modules/classrooms/interfaces/IRequestJoinClassroomTeam';
+    import { IUsersRepository } from '../../Core/src/modules/accounts/repositories/IUsersRepository';
+    import { AppError } from '../../Core/src/shared/errors/AppError';
+    import {IClassroomTeamServiceStrategy} from '../Interface/IClassRoomTeamServicesStrategy'
+    import { IClassroomsRepository } from "../../Core/src/modules/classrooms/repositories/IClassroomsRepository";
 
 
     @injectable()
@@ -20,7 +20,7 @@
             private classrooomsRepository: IClassroomsRepository,
           ) {}
     
-          async validate_create({ classroom_id, name, creator_id }: ICreateClassroomTeamDTO): Promise<boolean> {
+          async validate_create({ classroom_id, name, creator_id }: ICreateClassroomTeamFaculdadeDTO): Promise<boolean> {
             const classroom = await this.classrooomsRepository.findById(classroom_id);
 
             if (!classroom) {
