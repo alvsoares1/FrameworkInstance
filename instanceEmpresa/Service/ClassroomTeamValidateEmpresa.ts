@@ -22,7 +22,7 @@ class ClassroomTeamValidateEmpresa implements IClassroomTeamServiceStrategy{
 
       async validate_create({ classroom_id, name, creator_id }: ICreateClassroomTeamEmpresaDTO): Promise<boolean> {
         const classroom = await this.classrooomsRepository.findById(classroom_id);
-        const maneger = await this.usersRepository.findById(creator_id)
+        const maneger = await this.usersRepository.findById(creator_id);
 
         if (!classroom) {
           throw new AppError('Classroom not found!', 404);
@@ -52,8 +52,8 @@ class ClassroomTeamValidateEmpresa implements IClassroomTeamServiceStrategy{
           throw new AppError('User is already a member of the team!', 400);
         }
 
-        const isSameRole = classroomTeam.members.some(member => member.role === classroomTeam.role);
-        if(!isSameRole){
+     
+        if(user.role != classroomTeam.role){
           throw new AppError('Validation failed. Not the same role')
         }
 

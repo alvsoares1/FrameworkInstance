@@ -9,7 +9,7 @@ class ClassrooomControllerFaculdade extends ClassrooomController{
     const { id } = request.user;
 
     const classroomService = container.resolve(ClassroomServiceFaculdade);
-ClassroomServiceFaculdade
+
     const classroom = await classroomService.create({
       name, 
       description,

@@ -5,27 +5,27 @@ import { IRequestJoinClassroomTeam } from '../../Core/src/modules/classrooms/int
 import { AppError } from '../../Core/src/shared/errors/AppError';
 import { IClassroomTeamServiceStrategy } from '../Interface/IClassRoomTeamServicesStrategy';
 import { ClassroomTeam } from '../../Core/src/modules/classrooms/entities/ClassroomTeam';
-import { ICreateClassroomTeamFaculdadeDTO } from '../dtos/ICreateClassroomTeamFaculdadeDTO';
+import { ICreateClassroomTeamEscolaDTO } from '../dtos/ICreateClassroomTeamEscolaDTO';
 import {ClassroomTeamService} from '../../Core/src/modules/classrooms/services/ClassroomTeamService'
 
 @injectable()
-class ClassroomTeamServiceFaculdade extends ClassroomTeamService {
+class ClassroomTeamServiceEscola extends ClassroomTeamService {
   constructor(
     @inject('ClassroomTeamsRepository')
     private classroomTeamsRepository: IClassroomTeamsRepository,
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
-    @inject('ClassroomTeamValidateFaculdade')
+    @inject('ClassroomTeamValidateEscola')
     private ClassroomTeamServiceStrategy: IClassroomTeamServiceStrategy
   ) {
     super();
   }
 
-  async create({ classroom_id, name, creator_id }: ICreateClassroomTeamFaculdadeDTO): Promise<ClassroomTeam> {
+  async create({ classroom_id, name, creator_id }: ICreateClassroomTeamEscolaDTO): Promise<ClassroomTeam> {
 
-    const isValidationPassed = await this.ClassroomTeamServiceStrategy.validate_create({classroom_id,name,creator_id });
+    const isValid = await this.ClassroomTeamServiceStrategy.validate_create({classroom_id,name,creator_id });
 
-    if (isValidationPassed) {
+    if (isValid) {
       const classroomTeam: ClassroomTeam = await this.classroomTeamsRepository.create({
         classroom_id,
         name,
@@ -40,9 +40,9 @@ class ClassroomTeamServiceFaculdade extends ClassroomTeamService {
 
   async join({ user_id, team_id }: IRequestJoinClassroomTeam): Promise<ClassroomTeam> {
     const classroomTeam:ClassroomTeam = await this.classroomTeamsRepository.findById(team_id);
-    const isValidationPassed = await this.ClassroomTeamServiceStrategy.validate_join({user_id, team_id});
+    const isValid = await this.ClassroomTeamServiceStrategy.validate_join({user_id, team_id});
 
-    if(isValidationPassed){
+    if(isValid){
       classroomTeam.members.push(user_id);
       await this.classroomTeamsRepository.create(classroomTeam);
       return classroomTeam;
@@ -63,4 +63,4 @@ class ClassroomTeamServiceFaculdade extends ClassroomTeamService {
   }
 }
 
-export { ClassroomTeamServiceFaculdade };
+export { ClassroomTeamServiceEscola };

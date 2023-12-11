@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { ClassroomServiceEmpresa } from "../Service/ClassRoomEmpresaService";
+import { ClassroomServiceEscola } from "../Service/ClassroomService";
 import {ClassrooomController} from '../../Core/src/modules/classrooms/controllers/ClassroomController'
 
-class ClassrooomControllerEmpresa extends ClassrooomController{
+class ClassrooomControllerEscola extends ClassrooomController{
   async create(request: Request, response: Response): Promise<Response> {
     const { name, description } = request.body;
     const { id } = request.user;
 
-    const classroomService = container.resolve(ClassroomServiceEmpresa);
-    
+    const classroomService = container.resolve(ClassroomServiceEscola);
+
     const classroom = await classroomService.create({
       name, 
       description,
-      maneger_id: id,
+      professor_id: id,
     });
 
     return response.status(201).json(classroom);
@@ -23,7 +23,7 @@ class ClassrooomControllerEmpresa extends ClassrooomController{
     const { classroom_id } = request.body;
     const { id } = request.user;
 
-    const classroomService = container.resolve(ClassroomServiceEmpresa);
+    const classroomService = container.resolve(ClassroomServiceEscola);
 
     const classroom = await classroomService.join({
       classroom_id,
@@ -36,7 +36,7 @@ class ClassrooomControllerEmpresa extends ClassrooomController{
   async details(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    const classroomService = container.resolve(ClassroomServiceEmpresa);
+    const classroomService = container.resolve(ClassroomServiceEscola);
 
     const classroom = await classroomService.details(id);
 
@@ -44,4 +44,4 @@ class ClassrooomControllerEmpresa extends ClassrooomController{
   }
 }
 
-export { ClassrooomControllerEmpresa };
+export { ClassrooomControllerEscola };

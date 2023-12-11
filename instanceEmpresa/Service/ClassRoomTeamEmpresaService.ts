@@ -23,7 +23,7 @@ class ClassroomTeamServiceEmpresa extends ClassroomTeamService{
 
   async create({ classroom_id, name, creator_id, role }: ICreateClassroomTeamEmpresaDTO): Promise<ClassroomTeamEmpresa> {
 
-    const isValid = await this.ClassroomTeamServiceStrategy.validate_create({classroom_id,name,creator_id, role });
+    const isValidationPassed = await this.ClassroomTeamServiceStrategy.validate_create({classroom_id,name,creator_id, role });
 
     if (isValid) {
       const ClassroomTeamEmpresa: ClassroomTeamEmpresa = await this.classroomTeamsRepository.create({
@@ -41,9 +41,9 @@ class ClassroomTeamServiceEmpresa extends ClassroomTeamService{
 
   async join({ user_id, team_id }: IRequestJoinClassroomTeam): Promise<ClassroomTeamEmpresa> {
     const classroomTeam:ClassroomTeamEmpresa = await this.classroomTeamsRepository.findById(team_id);
-    const isValid = await this.ClassroomTeamServiceStrategy.validate_join({user_id, team_id});
+    const isValidationPassed = await this.ClassroomTeamServiceStrategy.validate_join({user_id, team_id});
 
-    if(isValid){
+    if(isValidationPassed){
       classroomTeam.members.push(user_id);
       await this.classroomTeamsRepository.create(classroomTeam);
       return classroomTeam;
