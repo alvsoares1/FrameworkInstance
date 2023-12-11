@@ -39,7 +39,17 @@ class ClassroomTeamServiceFaculdade extends ClassroomTeamService {
   }
 
   async join({ user_id, team_id }: IRequestJoinClassroomTeam): Promise<ClassroomTeam> {
-    return await this.ClassroomTeamServiceStrategy.join({ user_id, team_id });
+    const classroomTeam:ClassroomTeam = await this.classroomTeamsRepository.findById(team_id);
+    const isValid = await this.ClassroomTeamServiceStrategy.validate_join({user_id, team_id});
+
+    if(isValid){
+      classroomTeam.members.push(user_id);
+      await this.classroomTeamsRepository.create(classroomTeam);
+      return classroomTeam;
+
+    } else{
+      throw new AppError('Validation failed. Unable to join Classroom Team.', 400);
+    }
   }
 
   async details(id: string): Promise<ClassroomTeam> {

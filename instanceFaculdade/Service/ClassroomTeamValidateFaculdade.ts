@@ -31,7 +31,7 @@
           }
           
     
-      async join({ user_id, team_id }: IRequestJoinClassroomTeam): Promise<ClassroomTeam> {
+      async validate_join({ user_id, team_id }: IRequestJoinClassroomTeam): Promise<boolean> {
         const classroomTeam = await this.classroomTeamsRepository.findById(team_id);
     
         if (!classroomTeam) {
@@ -48,12 +48,8 @@
         if (isUserAlreadyMember) {
           throw new AppError('User is already a member of the team!', 400);
         }
-    
-        classroomTeam.members.push(user);
-    
-        await this.classroomTeamsRepository.create(classroomTeam);
-    
-        return classroomTeam;
+
+        return true
       }
     }
     

@@ -4,5 +4,5 @@ import { IRequestJoinClassroomTeam } from '../../Core/src/modules/classrooms/int
 
 export interface IClassroomTeamServiceStrategy {
   validate_create(data: ICreateClassroomTeamEmpresaDTO): Promise<boolean>;
-  join(data: IRequestJoinClassroomTeam): Promise<ClassroomTeamEmpresa>;
+  validate_join(data: IRequestJoinClassroomTeam): Promise<boolean>;
 }

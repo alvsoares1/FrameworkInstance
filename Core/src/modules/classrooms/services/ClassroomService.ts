@@ -10,7 +10,7 @@ import { IClassroomServicesStrategy } from "../interfaces/IClassroomServicesStra
 
 
 abstract class ClassroomService {
-  abstract create({ name, description, professor_id }: ICreateClassroomDTO): Promise<Classroom>;
+  abstract create({ name, description }: ICreateClassroomDTO): Promise<Classroom>;
   abstract join({ classroom_id, user_id }: IRequestJoinClassroom): Promise<Classroom>;
   abstract details(id: string): Promise<Classroom>;
 }

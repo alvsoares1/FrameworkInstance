@@ -1,5 +1,5 @@
-import { ICreateClassroomDTO } from "../../Core/src/modules/classrooms/dtos/ICreateClassroomDTO";
+import { ICreateClassroomFaculdadeDTO } from "../dtos/ICreateClassroomFaculdadeDTO";
 
 export interface IClassroomServicesStrategy{
-    validateCreate(data:ICreateClassroomDTO): Promise<boolean>
+    validateCreate(data:ICreateClassroomFaculdadeDTO): Promise<boolean>
 }

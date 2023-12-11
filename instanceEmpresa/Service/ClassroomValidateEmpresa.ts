@@ -15,7 +15,7 @@ class ClassroomValidateEmpresa implements IClassroomServicesStrategy {
     ) {}
 
     async validateCreate({maneger_id }: ICreateClassroomEmpresaDTO): Promise<boolean> {
-        const manager = await this.usersRepository.findById(professor_id);
+        const manager = await this.usersRepository.findById(maneger_id);
 
         if (!manager || manager.role !== 2) {
             throw new AppError("Invalid professor!", 400);

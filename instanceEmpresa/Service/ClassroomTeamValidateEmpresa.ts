@@ -5,7 +5,7 @@ import { IClassroomTeamsRepository } from '../repositories/IClassroomTeamsReposi
 import { IRequestJoinClassroomTeam } from '../interfaces/IRequestJoinClassroomTeam';
 import { IUsersRepository } from '../../accounts/repositories/IUsersRepository';
 import { AppError } from '../../../shared/errors/AppError';
-import {IClassroomTeamServiceStrategy} from '../interfaces/IClassRoomTeamServicesStrategy'
+import {IClassroomTeamServiceStrategy} from '../Interface/IClassRoomTeamServicesStrategy'
 import { IClassroomsRepository } from "../repositories/IClassroomsRepository";
 
 
@@ -35,35 +35,31 @@ class ClassroomTeamValidateEmpresa implements IClassroomTeamServiceStrategy{
       }
       
 
-  async join({ user_id, team_id }: IRequestJoinClassroomTeam): Promise<ClassroomTeamEmpresa> {
-    const classroomTeam = await this.classroomTeamsRepository.findById(team_id);
+      async validate_join({ user_id, team_id }: IRequestJoinClassroomTeam): Promise<boolean> {
+        const classroomTeam = await this.classroomTeamsRepository.findById(team_id);
+        if (!classroomTeam) {
+          throw new AppError('Classroom Team not found!', 404);
+        }
+    
+        const user = await this.usersRepository.findById(user_id);
+    
+        if (!user) {
+          throw new AppError('User not found!', 404);
+        }
+    
+        const isUserAlreadyMember = classroomTeam.members.some(member => member.id === user_id);
+        if (isUserAlreadyMember) {
+          throw new AppError('User is already a member of the team!', 400);
+        }
 
-    if (!classroomTeam) {
-      throw new AppError('Classroom Team not found!', 404);
-    }
+        const isSameRole = classroomTeam.members.some(member => member.role === classroomTeam.role);
+        if(!isSameRole){
+          throw new AppError('Validation failed. Not the same role')
+        }
 
-    const user = await this.usersRepository.findById(user_id);
 
-    if (!user) {
-      throw new AppError('User not found!', 404);
-    }
-
-    const isUserAlreadyMember = classroomTeam.members.some(member => member.id === user_id);
-    if (isUserAlreadyMember) {
-      throw new AppError('User is already a member of the team!', 400);
-    }
-
-    const isSameRole = classroomTeam.members.some(member => member.role === classroomTeam.role);
-    if(!isSameRole){
-      throw new AppError('Validation failed. Not the same role')
-    }
-
-    classroomTeam.members.push(user);
-
-    await this.classroomTeamsRepository.create(classroomTeam);
-
-    return classroomTeam;
-  }
+        return true
+      }
 }
 
 export { ClassroomTeamValidateEmpresa };
