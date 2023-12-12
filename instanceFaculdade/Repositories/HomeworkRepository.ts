@@ -7,7 +7,7 @@ import { AppDataSource } from "../../src/database/data-source";
 import {HomeworkRepository} from "../../src/modules/homework/repositories/implementations/HomeworkRepository"
 
 class HomeworkRepositoryFaculdade extends HomeworkRepository implements IHomeworkRepository {
-  private repository: Repository<Homework>;
+  protected repository: Repository<Homework>;
 
   constructor() {
     super();

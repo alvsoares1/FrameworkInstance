@@ -7,7 +7,7 @@ import { AppDataSource } from "../../src/database/data-source";
 import {HomeworkRepository} from "../../src/modules/homework/repositories/implementations/HomeworkRepository"
 
 class HomeworkRepositoryEmpresa extends HomeworkRepository implements IHomeworkRepository {
-  private repository: Repository<Homework>;
+  protected repository: Repository<Homework>;
 
   constructor() {
     super();
@@ -26,15 +26,6 @@ class HomeworkRepositoryEmpresa extends HomeworkRepository implements IHomeworkR
     return homework
   }
 
-  async findById(id: string): Promise<Homework | null> {
-    const homework = this.repository.findOneBy({ id });
-    return homework;
-  }
-
-  async findByName(name: string): Promise<Homework | null> {
-    const homework = this.repository.findOneBy({ name });
-    return homework;
-  }
 }
 
 export { HomeworkRepositoryEmpresa };

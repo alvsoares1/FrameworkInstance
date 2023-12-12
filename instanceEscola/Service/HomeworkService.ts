@@ -14,15 +14,13 @@ import { IRequestGiveGradeHomeworkEscola } from "../Interface/IRequestGiveGradeE
 class HomeworkServiceEscola extends HomeworkService{
     constructor(
         @inject('HomeworkRepository')
-        private homeworkRepository: IHomeworkRepository,
+        protected homeworkRepository: IHomeworkRepository,
         @inject('ClassroomTeamsRepository')
-        private classroomTeamsRepository: IClassroomTeamsRepository,
+        protected classroomTeamsRepository: IClassroomTeamsRepository,
         @inject("ClassroomRepository")
-        private classroomRepository: IClassroomTeamsRepository,
-        @inject("HomeworkValidateFaculdade")
         private validateHomeworkServiceStrategy: IHomeworkServiceStrategy
     ){
-        super();
+        super(homeworkRepository, classroomTeamsRepository);
     }
 
     async create({name, details, creator_id}: ICreateHomeworkEscolaDTO): Promise<Homework>{

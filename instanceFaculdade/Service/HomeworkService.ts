@@ -8,22 +8,19 @@ import { IRequestGiveFeedbackHomework } from "../../src/modules/homework/interfa
 import { HomeworkService } from "../../src/modules/homework/services/HomeworkService";
 import { ICreateHomeworkFaculdadeDTO } from "../dtos/ICreateHomeworkFaculdadeDTO";
 import { IRequestAnswerHomework } from "../../src/modules/homework/interfaces/IRequestAnswerHomework";
-import { IRequestGiveFeedbackFaculdade } from "../Interface/IRequestGiveFeedbackFaculdade";
 import { IRequestGiveGradeHomeworkFaculdade } from "../Interface/IRequestGiveGradeFaculdade";
 
 @injectable()
 class HomeworkServiceFaculdade extends HomeworkService{
     constructor(
         @inject('HomeworkRepository')
-        private homeworkRepository: IHomeworkRepository,
+        protected homeworkRepository: IHomeworkRepository,
         @inject('ClassroomTeamsRepository')
-        private classroomTeamsRepository: IClassroomTeamsRepository,
+        protected classroomTeamsRepository: IClassroomTeamsRepository,
         @inject("ClassroomRepository")
-        private classroomRepository: IClassroomTeamsRepository,
-        @inject("HomeworkValidateFaculdade")
         private validateHomeworkServiceStrategy: IHomeworkServiceStrategy
     ){
-        super();
+        super(homeworkRepository, classroomTeamsRepository);
     }
 
     async create({name, details, creator_id}: ICreateHomeworkFaculdadeDTO): Promise<Homework>{
@@ -42,16 +39,17 @@ class HomeworkServiceFaculdade extends HomeworkService{
           }
     }
 
-    async giveFeedback({homework_id, team_id, feedback}: IRequestGiveFeedbackFaculdade): Promise<Homework>{
+    async giveFeedback({homework_id, team_id, feedback}: IRequestGiveFeedbackHomework): Promise<Homework>{
         const team = await this.classroomTeamsRepository.findById(team_id);
         if (!team) {
             throw new AppError("Invalid team!", 400);
         }
 
         const homework = await this.homeworkRepository.findById(homework_id);
-        if(!homework){
-            throw new AppError("Invalid Homework!", 400)
+        if (!homework){
+            throw new AppError('Homework not found!', 404);
         }
+
 
         const professor_id = homework.creator_id;
 
@@ -103,9 +101,9 @@ class HomeworkServiceFaculdade extends HomeworkService{
         const isValidationPassed = await this.validateHomeworkServiceStrategy.validateGiveGrade({homework_id, team_id, grade, professor_id});
         
         if (isValidationPassed) {
-            const identifiedGrade: string = `${team_id}_${grade}`;
+            const identifiedFeedback: string = `${team_id}_${grade}`;
 
-            homework.grade.push(identifiedGrade);
+            homework.grade.push(identifiedFeedback);
 
             return homework;
             
