@@ -1,37 +1,30 @@
 import { Repository } from "typeorm";
-
-import { ClassroomTeamEmpresa } from "../Entities/ClassRoomTeamEmpresa";
 import { ICreateClassroomTeamEmpresaDTO } from "../dtos/ICreateClassroomTeamEmpresaDTO";
 import { IClassroomTeamsRepository } from "../../Core/src/modules/classrooms/repositories/IClassroomTeamsRepository";
+import { ClassroomTeamEmpresa } from "../../Core/src/modules/classrooms/entities/ClassroomTeamEmpresa";
 import { AppDataSource } from "../../Core/src/database/data-source";
 import { ClassroomTeamsRepository } from "../../Core/src/modules/classrooms/repositories/implementations/ClassroomTeamsRepository";
 
-class ClassroomTeamsEmpresaRepository extends ClassroomTeamsRepository implements IClassroomTeamsRepository {
+class ClassroomTeamEmpresaRepository extends ClassroomTeamsRepository implements IClassroomTeamsRepository {
   private repository: Repository<ClassroomTeamEmpresa>;
 
   constructor() {
     super();
     this.repository = AppDataSource.getRepository(ClassroomTeamEmpresa);
   }
-  
-  async create({ name, classroom_id, creator_id, role }: ICreateClassroomTeamEmpresaDTO): Promise<ClassroomTeamEmpresa> {
-    const ClassroomTeamEmpresa = this.repository.create({
-      name,
+
+  async create({ classroom_id, name, creator_id, role }: ICreateClassroomTeamEmpresaDTO): Promise<ClassroomTeamEmpresa> {
+    const classroomTeamEmpresa = this.repository.create({
       classroom_id,
+      name,
       creator_id,
-      role
+      role,
     });
 
-    await this.repository.save(ClassroomTeamEmpresa);
+    await this.repository.save(classroomTeamEmpresa);
 
-    return ClassroomTeamEmpresa
+    return classroomTeamEmpresa;
   }
-
-  async findById(id: string): Promise<ClassroomTeamEmpresa | null> {
-    const ClassroomTeamEmpresa = this.repository.findOneBy({ id });
-    return ClassroomTeamEmpresa;
-  }
-
 }
 
-export { ClassroomTeamsEmpresaRepository };
+export { ClassroomTeamEmpresaRepository };

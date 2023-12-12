@@ -38,36 +38,6 @@ class ClassroomServiceEmpresa extends ClassroomService {
       throw new AppError("Validation failed", 400);
     }
   }
-
-  async join({ classroom_id, user_id }: IRequestJoinClassroom): Promise<Classroom> {
-    const classroom = await this.classrooomsRepository.findById(classroom_id);
-
-    if (!classroom) {
-      throw new AppError("Classroom not found!", 404);
-    }
-
-    const user = await this.usersRepository.findById(user_id);
-
-    if (!user) {
-      throw new AppError("User not found!", 404);
-    }
-
-    classroom.members.push(user);
-
-    await this.classrooomsRepository.create(classroom);
-
-    return classroom;
-  }
-
-  async details(id: string): Promise<Classroom> {
-    const classroom = await this.classrooomsRepository.findById(id);
-
-    if (!classroom) {
-      throw new AppError("Classroom not found!", 404);
-    }
-
-    return classroom;
-  }
 }
 
 export { ClassroomServiceEmpresa };

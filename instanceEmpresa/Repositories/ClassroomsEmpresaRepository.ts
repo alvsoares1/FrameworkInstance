@@ -27,11 +27,6 @@ class ClassroomEmpresaRepository extends ClassroomsRepository implements IClassr
 
     return classroom;
   }
-
-  async findById(id: string): Promise<Classroom | null> {
-    const classroom = await this.repository.findOneBy({ id });
-    return classroom;
-  }
   
 }
 

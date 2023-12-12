@@ -6,9 +6,30 @@ import { Classroom } from "../../entities/Classroom";
 import { AppDataSource } from "../../../../database/data-source";
 
 
-abstract class ClassroomsRepository implements IClassroomsRepository {
-  abstract create({ id, name, description, professor_id }: ICreateClassroomDTO): Promise<Classroom>;
-  abstract findById(id: string): Promise<Classroom | null>;
+class ClassroomsRepository implements IClassroomsRepository {
+  private repository: Repository<Classroom>;
+
+  constructor() {
+    this.repository = AppDataSource.getRepository(Classroom);
+  }
+
+  async create({ id, name, description}: ICreateClassroomDTO): Promise<Classroom> {
+    const classroom = this.repository.create({
+      id,
+      name, 
+      description,
+    });
+
+    await this.repository.save(classroom);
+
+    return classroom;
+  }
+
+  async findById(id: string): Promise<Classroom | null> {
+    const classroom = await this.repository.findOneBy({ id });
+    return classroom;
+  }
+  
 }
 
 export { ClassroomsRepository };
