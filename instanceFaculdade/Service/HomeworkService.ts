@@ -50,7 +50,6 @@ class HomeworkServiceFaculdade extends HomeworkService{
             throw new AppError('Homework not found!', 404);
         }
 
-
         const professor_id = homework.creator_id;
 
         const isValidationPassed = await this.validateHomeworkServiceStrategy.validateGiveFeedback({homework_id, team_id, feedback, professor_id});
