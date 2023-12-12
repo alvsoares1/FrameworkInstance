@@ -8,6 +8,7 @@ import { IRequestGiveFeedbackHomework } from "../../src/modules/homework/interfa
 import { HomeworkService } from "../../src/modules/homework/services/HomeworkService";
 import { ICreateHomeworkFaculdadeDTO } from "../dtos/ICreateHomeworkFaculdadeDTO";
 import { IRequestAnswerHomework } from "../../src/modules/homework/interfaces/IRequestAnswerHomework";
+import { IRequestGiveFeedbackFaculdade } from "../Interface/IRequestGiveFeedbackFaculdade";
 import { IRequestGiveGradeHomeworkFaculdade } from "../Interface/IRequestGiveGradeFaculdade";
 
 @injectable()
@@ -41,7 +42,7 @@ class HomeworkServiceFaculdade extends HomeworkService{
           }
     }
 
-    async giveFeedback({homework_id, team_id, feedback}: IRequestGiveFeedbackHomework): Promise<Homework>{
+    async giveFeedback({homework_id, team_id, feedback}: IRequestGiveFeedbackFaculdade): Promise<Homework>{
         const team = await this.classroomTeamsRepository.findById(team_id);
         if (!team) {
             throw new AppError("Invalid team!", 400);
@@ -102,9 +103,9 @@ class HomeworkServiceFaculdade extends HomeworkService{
         const isValidationPassed = await this.validateHomeworkServiceStrategy.validateGiveGrade({homework_id, team_id, grade, professor_id});
         
         if (isValidationPassed) {
-            const identifiedFeedback: string = `${team_id}_${grade}`;
+            const identifiedGrade: string = `${team_id}_${grade}`;
 
-            homework.grade.push(identifiedFeedback);
+            homework.grade.push(identifiedGrade);
 
             return homework;
             
