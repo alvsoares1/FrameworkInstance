@@ -1,5 +1,4 @@
 import { ICreateClassroomTeamEscolaDTO } from '../dtos/ICreateClassroomTeamEscolaDTO';
-import { ClassroomTeam } from '../../Core/src/modules/classrooms/entities/ClassroomTeam';
 import { IRequestJoinClassroomTeam } from '../../Core/src/modules/classrooms/interfaces/IRequestJoinClassroomTeam';
 
 export interface IClassroomTeamServiceStrategy {

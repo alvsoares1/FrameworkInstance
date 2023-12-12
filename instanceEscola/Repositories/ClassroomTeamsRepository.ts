@@ -6,7 +6,7 @@ import { IClassroomTeamsRepository } from "../../Core/src/modules/classrooms/rep
 import { AppDataSource } from "../../Core/src/database/data-source";
 import { ClassroomTeamsRepository } from "../../Core/src/modules/classrooms/repositories/implementations/ClassroomTeamsRepository";
 
-class ClassroomTeamsRepositoryFaculdade extends ClassroomTeamsRepository implements IClassroomTeamsRepository {
+class ClassroomTeamsRepositoryEscola extends ClassroomTeamsRepository implements IClassroomTeamsRepository {
   private repository: Repository<ClassroomTeam>;
 
   constructor() {
@@ -33,4 +33,4 @@ class ClassroomTeamsRepositoryFaculdade extends ClassroomTeamsRepository impleme
 
 }
 
-export { ClassroomTeamsRepositoryFaculdade };
+export { ClassroomTeamsRepositoryEscola };
