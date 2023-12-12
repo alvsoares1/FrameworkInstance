@@ -1,5 +1,5 @@
 export interface IRequestGiveFeedbackHomework {
+    homework_id: string;
     team_id: string;
-    name: string;
     feedback: string;
   }
