@@ -51,16 +51,6 @@ class ClassroomTeamServiceFaculdade extends ClassroomTeamService {
       throw new AppError('Validation failed. Unable to join Classroom Team.', 400);
     }
   }
-
-  async details(id: string): Promise<ClassroomTeam> {
-    const classroomTeam = await this.classroomTeamsRepository.findById(id);
-
-    if (!classroomTeam) {
-      throw new AppError('Classroom Team not found!', 404);
-    }
-
-    return classroomTeam;
-  }
 }
 
 export { ClassroomTeamServiceFaculdade };

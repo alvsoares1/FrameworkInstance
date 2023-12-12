@@ -18,17 +18,6 @@ class ClassrooomControllerEmpresa extends ClassrooomController {
     return response.status(201).json(classroom);
   }
 
-  async join(request: Request, response: Response): Promise<Response> {
-    const { classroom_id } = request.body;
-    const { id } = request.user;
-
-    const classroom = await this.classroomService.join({
-      classroom_id,
-      user_id: id,
-    });
-
-    return response.json(classroom);
-  }
 }
 
 export { ClassrooomControllerEmpresa };

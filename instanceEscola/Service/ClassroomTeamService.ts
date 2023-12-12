@@ -52,15 +52,6 @@ class ClassroomTeamServiceEscola extends ClassroomTeamService {
     }
   }
 
-  async details(id: string): Promise<ClassroomTeam> {
-    const classroomTeam = await this.classroomTeamsRepository.findById(id);
-
-    if (!classroomTeam) {
-      throw new AppError('Classroom Team not found!', 404);
-    }
-
-    return classroomTeam;
-  }
 }
 
 export { ClassroomTeamServiceEscola };
