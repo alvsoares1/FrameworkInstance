@@ -11,7 +11,7 @@ import { ICreateClassroomTeamEmpresaDTO } from '../dtos/ICreateClassroomTeamEmpr
 @injectable()
 class ClassroomTeamServiceEmpresa extends ClassroomTeamService {
   constructor(
-    @inject('ClassroomTeamsRepository')
+    @inject('ClassroomTeamsRepositoryEmpresa')
     private classroomTeamsRepository: IClassroomTeamsRepository,
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,

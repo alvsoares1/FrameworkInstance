@@ -13,7 +13,7 @@ import {ClassroomService} from '../../Core/src/modules/classrooms/services/Class
 @injectable()
 class ClassroomServiceEscola extends ClassroomService{
   constructor(
-    @inject("ClassroomsRepository")
+    @inject("ClassroomsRepositoryEscola")
     private classrooomsRepository: IClassroomsRepository,
     @inject("UsersRepository")
     private usersRepository: IUsersRepository,
